@@ -161,7 +161,9 @@ class TranscodingTask {
      */
     public function getStatus() {
         $params = array('task_tokens[]' => $this->taskToken);
-        //TODO: fallback to /v1/status
+        if (!$this->statusUrl) {
+            $this->statusUrl = 'https://api.qencode.com/v1/status';
+        }
         $response = $this->api->post($this->statusUrl, $params);
         $this->lastStatus = $response['statuses'][$this->taskToken];
         if ($this->lastStatus == null) {
